@@ -15,19 +15,6 @@ function DummySwitch(log, config) {
   this.name = config.name;
   this.stateful = config.stateful;
   this.reverse = config.reverse;
-
-  if (config.to_hour >= 0) {
-    var toHour = config.to_hour;
-    var toMin = config.to_min ? config.to_min : 0;
-    var now = new Date();
-    this.time = new Date(now.getFullYear(), now.getMonth(), now.getDate(), toHour, toMin, 0, 0) - now;
-    if (this.time < 0) {
-      this.time += 86400000;
-    }
-    console.log(this.time / 1000);
-  } else {
-    this.time = config.time ? config.time : 1000;
-  }
   this._service = new Service.Switch(this.name);
   
   this.cacheDirectory = HomebridgeAPI.user.persistPath();
@@ -46,6 +33,19 @@ function DummySwitch(log, config) {
 	} else {
 		this._service.setCharacteristic(Characteristic.On, true);
 	}
+  }
+
+  if (config.to_hour >= 0) {
+    var toHour = config.to_hour;
+    var toMin = config.to_min ? config.to_min : 0;
+    var now = new Date();
+    this.time = new Date(now.getFullYear(), now.getMonth(), now.getDate(), toHour, toMin, 0, 0) - now;
+    if (this.time < 0) {
+      this.time += 86400000;
+    }
+    console.log(this.time / 1000);
+  } else {
+    this.time = config.time ? config.time : 1000;
   }
 }
 
