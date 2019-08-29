@@ -24,6 +24,7 @@ function DummySwitch(log, config) {
     if (this.time < 0) {
       this.time += 86400000;
     }
+    console.log(this.time / 1000);
   } else {
     this.time = config.time ? config.time : 1000;
   }
