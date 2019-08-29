@@ -15,7 +15,18 @@ function DummySwitch(log, config) {
   this.name = config.name;
   this.stateful = config.stateful;
   this.reverse = config.reverse;
-  this.time = config.time ? config.time : 1000;		
+
+  if (config.toHour) {
+    var toHour = config.toHour;
+    var toMin = config.toMin ? config.toMin : 0;
+    var now = new Date();
+    this.time = new Date(now.getFullYear(), now.getMonth(), now.getDate(), toHour, toMin, 0, 0) - now;
+    if (this.time < 0) {
+      this.time += 86400000; // it's after 10am, try 10am tomorrow.
+    }
+  } else {
+    this.time = config.time ? config.time : 1000;
+  }
   this._service = new Service.Switch(this.name);
   
   this.cacheDirectory = HomebridgeAPI.user.persistPath();
