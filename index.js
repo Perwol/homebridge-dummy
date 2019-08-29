@@ -57,8 +57,11 @@ DummySwitch.prototype._setOn = function(on, callback) {
     if (this.time < 0) {
       this.time += 86400000;
     }
-    this.log(this.time / 1000);
+  } else {
+    this.time = 1000;
   }
+
+  this.log(this.time / 1000);
 
   if (on && !this.reverse && !this.stateful) {
     setTimeout(function() {
