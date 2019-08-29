@@ -60,9 +60,7 @@ DummySwitch.prototype._setOn = function(on, callback) {
   } else {
     this.time = 1000;
   }
-
-  this.log(this.time / 1000);
-
+  
   if (on && !this.reverse && !this.stateful) {
     setTimeout(function() {
       this._service.setCharacteristic(Characteristic.On, false);
