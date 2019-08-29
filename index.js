@@ -36,14 +36,8 @@ function DummySwitch(log, config) {
   }
 
   if (config.to_hour >= 0) {
-    var toHour = config.to_hour;
-    var toMin = config.to_min ? config.to_min : 0;
-    var now = new Date();
-    this.time = new Date(now.getFullYear(), now.getMonth(), now.getDate(), toHour, toMin, 0, 0) - now;
-    if (this.time < 0) {
-      this.time += 86400000;
-    }
-    console.log(this.time / 1000);
+    this.toHour = config.to_hour;
+    this.toMin = config.to_min ? config.to_min : 0;
   } else {
     this.time = config.time ? config.time : 1000;
   }
@@ -56,6 +50,15 @@ DummySwitch.prototype.getServices = function() {
 DummySwitch.prototype._setOn = function(on, callback) {
 
   this.log("Setting switch to " + on);
+
+  if (on && this.toHour >= 0) {
+    var now = new Date();
+    this.time = new Date(now.getFullYear(), now.getMonth(), now.getDate(), this.toHour, this.toMin, 0, 0) - now;
+    if (this.time < 0) {
+      this.time += 86400000;
+    }
+    this.log(this.time / 1000);
+  }
 
   if (on && !this.reverse && !this.stateful) {
     setTimeout(function() {
